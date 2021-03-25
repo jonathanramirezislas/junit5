@@ -60,7 +60,4 @@ public class Cuenta {
         return this.persona.equals(c.getPersona()) && this.saldo.equals(c.getSaldo());
     }
 
-
-
-
 }

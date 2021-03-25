@@ -68,6 +68,22 @@ class CuentaTest {
         assertEquals(esperado, actual);
     }
 
+    @Test
+    void testTransferirDineroCuentas() {
+        Cuenta cuenta1 = new Cuenta("Jhon Doe", new BigDecimal("2500"));
+        Cuenta cuenta2 = new Cuenta("Andres", new BigDecimal("1500.8989"));
+
+        Banco banco = new Banco();
+        banco.setNombre("Banco del Estado");
+        banco.transferir(cuenta2, cuenta1, new BigDecimal(500));
+        assertEquals("1000.8989", cuenta2.getSaldo().toPlainString());
+        assertEquals("3000", cuenta1.getSaldo().toPlainString());
+    }
+
+    
+
+
+
 }
 
 
