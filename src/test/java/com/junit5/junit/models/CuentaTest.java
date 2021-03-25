@@ -2,6 +2,7 @@ package com.junit5.junit.models;
 
 import com.junit5.junit.exceptions.DineroInsuficienteException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -15,10 +16,12 @@ class CuentaTest {
         Cuenta cuenta = new Cuenta("Jonathan", new BigDecimal("1000.500"));
         String real = cuenta.getPersona();
         String esperado="Jonathan";
-        assertEquals(esperado, real);
+        assertEquals(esperado, real, () -> "el nombre de la cuenta no es el que se esperaba: se esperaba " + esperado
+                + " sin embargo fue " + real);
     }
 
     @Test
+    @DisplayName("el saldo, que no sea null, mayor que cero, valor esperado.")
     void TestSaldoCuenta(){
         Cuenta cuenta = new Cuenta("Jonathan", new BigDecimal("1000.512"));
         assertEquals(1000.512, cuenta.getSaldo().doubleValue());
@@ -27,6 +30,7 @@ class CuentaTest {
     }
 
     @Test
+    @DisplayName("testeando referencias que sean iguales con el método equals.")
     void testReferenciaCuenta() {
         Cuenta cuenta = new Cuenta("John Doe", new BigDecimal("8900.9997"));
         Cuenta cuenta2 = new Cuenta("John Doe", new BigDecimal("8900.9997"));
@@ -82,6 +86,7 @@ class CuentaTest {
 
 
     @Test
+    @DisplayName("probando relaciones entre las cuentas y el banco con assertAll.")
     void testRelacionBancoCuentas() {
         //fail();
         Cuenta cuenta1 = new Cuenta("Jhon Doe", new BigDecimal("2500"));
@@ -95,8 +100,7 @@ class CuentaTest {
         banco.transferir(cuenta2, cuenta1, new BigDecimal(500));
         assertAll(
                 () -> assertEquals("1000.8989", cuenta2.getSaldo().toPlainString(),
-
-                () -> "el valor del saldo de la cuenta2 no es el esperado."),
+                    () -> "el valor del saldo de la cuenta2 no es el esperado."),
 
                 () -> assertEquals("3000", cuenta1.getSaldo().toPlainString(),
                         () -> "el valor del saldo de la cuenta1 no es el esperado."),
