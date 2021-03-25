@@ -35,6 +35,16 @@ class CuentaTest {
 
     }
 
+    @Test
+    void testDebitoCuenta() {
+        Cuenta cuenta = new Cuenta("John Doe", new BigDecimal("1000.12345"));
+        cuenta.debito(new BigDecimal(100)); //restar 100
+        assertNotNull(cuenta.getSaldo());
+        assertEquals(900, cuenta.getSaldo().intValue());
+        assertEquals("900.12345", cuenta.getSaldo().toPlainString());
+    }
+
+
 }
 
 
