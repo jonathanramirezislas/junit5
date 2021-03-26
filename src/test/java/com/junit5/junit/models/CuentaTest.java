@@ -1,9 +1,12 @@
 package com.junit5.junit.models;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.junit5.junit.exceptions.DineroInsuficienteException;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.*;
 
 import java.math.BigDecimal;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -135,6 +138,70 @@ class CuentaTest {
         );
     }
 
+        @Test
+        @EnabledOnOs(OS.WINDOWS)
+        void testSoloWindows() {
+        }
+
+        @Test
+        @EnabledOnOs({OS.LINUX, OS.MAC})
+        void testSoloLinuxMac() {
+        }
+
+        @Test
+        @DisabledOnOs(OS.WINDOWS)
+        void testNoWindows() {
+        }
+
+        @Test
+        @EnabledOnJre(JRE.JAVA_8)
+        void soloJdk8() {
+        }
+
+        @Test
+        @EnabledOnJre(JRE.JAVA_15)
+        void soloJDK15() {
+        }
+
+        @Test
+        @DisabledOnJre(JRE.JAVA_15)
+        void testNoJDK15() {
+        }
+
+        //Ver propiedades del sistema y version java etc
+        @Test
+        void imprimirSystemProperties() {
+            Properties properties = System.getProperties();
+            properties.forEach((k, v)-> System.out.println(k + ":" + v));
+
+        }
+
+        @Test
+        @EnabledIfSystemProperty(named = "java.version", matches = ".*11.*")
+        void testJavaVersion() {
+        }
+
+        //ejecutamos si solo si estamos en sistema operativo diferente a 32
+        @Test
+        @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+        void testSolo64() {
+        }
+        //ejeutar solo si es 32
+        @Test
+        @EnabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+        void testNO64() {
+        }
+
+        //habilitar si el usuario del sistema operrastivo es
+        @Test
+        @EnabledIfSystemProperty(named = "user.name", matches = "jonathan")
+        void testUsername() {
+        }
+
+        @Test
+        @EnabledIfSystemProperty(named = "ENV", matches = "dev")
+        void testDev() {
+        }
 
 }
 
