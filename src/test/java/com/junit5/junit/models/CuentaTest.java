@@ -11,10 +11,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
@@ -25,7 +27,7 @@ class CuentaTest {
     Cuenta cuenta;
 
     private TestInfo testInfo; ///Nos da infromacion del tgest asi como reflection
-    private TestReporter testReporter;//Nos ayuda a tener una biblioteca de la fecha y hora 
+    private TestReporter testReporter;//Nos ayuda a tener una biblioteca de la fecha y hora
 
     @BeforeEach
     void initMetodoTest(TestInfo testInfo, TestReporter testReporter) {
@@ -364,6 +366,33 @@ class CuentaTest {
         return Arrays.asList("100", "200", "300", "500", "700");
     }
 
+
+
+    @Nested
+    @Tag("timeout")
+    class EjemploTimeoutTest{
+
+        //si la rpueba dura mas de 5 segundos falla el tes
+        @Test
+        @Timeout(5) // segundos
+        void pruebaTimeout() throws InterruptedException {
+            TimeUnit.SECONDS.sleep(2);//arriba de 5 segundos fallara 6 ,7 ,8 etc
+        }
+
+        @Test
+        @Timeout(value = 9000, unit = TimeUnit.MILLISECONDS)//otra forma de establecer el tiempo de espera
+        void pruebaTimeout2() throws InterruptedException {
+            TimeUnit.MILLISECONDS.sleep(100);
+        }
+
+        @Test
+        void testTimeoutAssertions() {
+            //dentro de una parte del test y no todo el test
+            assertTimeout(Duration.ofSeconds(5), ()->{
+                TimeUnit.MILLISECONDS.sleep(4000);
+            });
+        }
+    }
 
 }
 
