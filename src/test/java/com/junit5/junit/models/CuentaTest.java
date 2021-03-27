@@ -44,6 +44,7 @@ class CuentaTest {
     static void afterAll() {
         //System.out.println("finalizando el test");
     }
+    @Tag("cuenta")
     @Nested
     @DisplayName("probando atributos de la cuenta")
     class CuentaTestNombreSaldo{
@@ -75,6 +76,8 @@ class CuentaTest {
 
         }
     }
+
+    @Tag("cuenta")
     @Nested
     @DisplayName("probando operaciones cuenta")
     class CuentaOperacionesTest{
@@ -263,7 +266,7 @@ class CuentaTest {
         }
     }
 
-
+    @Tag("cuenta")
     @Test
     @DisplayName("test Saldo Cuenta Dev")
     void testSaldoCuentaDev() {
@@ -275,6 +278,8 @@ class CuentaTest {
         assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0);
     }
 
+    @Tag("cuenta")
+    @Tag("banco")
     @Test
     @DisplayName("test Saldo Cuenta Dev 2")
     void testSaldoCuentaDev2() {
@@ -300,7 +305,7 @@ class CuentaTest {
         assertEquals("900.12345", cuenta.getSaldo().toPlainString());
     }
 
-
+    @Tag("param")
     @Nested
     @DisplayName("Pruebas parametrizadas")
     class PruebasParametrizadasTest{
@@ -323,6 +328,8 @@ class CuentaTest {
             assertNotNull(cuenta.getSaldo());
             assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0);
         }
+
+
 
         @ParameterizedTest(name = "numero {index} ejecutando con valor {0} - {argumentsWithNames}")
         @CsvFileSource(resources = "/data.csv")
